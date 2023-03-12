@@ -19,7 +19,7 @@ public class AuthController {
     @GetMapping("/google/callback")
     public void callback (
             @RequestParam(name = "code") String code)throws IOException {
-        System.out.println(">> 소셜 로그인 API 서버로부터 받은 code :"+ code);
+        oauthService.googleLogin(code);
     }
 
 }

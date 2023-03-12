@@ -3,6 +3,7 @@ package com.ucluverse.newucluverseserver.domain.auth;
 import com.ucluverse.newucluverseserver.domain.auth.dto.GetSocialOAuthRes;
 import com.ucluverse.newucluverseserver.domain.auth.dto.GoogleOAuthToken;
 import com.ucluverse.newucluverseserver.domain.auth.dto.GoogleUser;
+import com.ucluverse.newucluverseserver.domain.member.Member;
 import com.ucluverse.newucluverseserver.domain.member.MemberRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class OauthService {
     private final GoogleOauth googleOauth;
     private final HttpServletResponse response;
     private final MemberRepository memberRepository;
+    private final TokenProvider tokenProvider;
 
     public void requestGoogle() throws IOException {
         response.sendRedirect(googleOauth.getOauthRedirectURL());
@@ -35,16 +38,16 @@ public class OauthService {
         String user_email=googleUser.getEmail();
 
         //우리 서버의 db와 대조하여 해당 user가 존재하는 지 확인
-        memberRepository.findByEmail(user_email)
-                .ifPresent(user -> {
-                    String jwtToken=jwtService.createJwt(user.getEmail() ,user.getId());
-                    GetSocialOAuthRes getGoogleAuthRes= GetSocialOAuthRes.builder()
-                            .jwtToken(jwtToken)
-                            .member_idx(user.getId().intValue())
-                            .googleAccessToken(oAuthToken.getAccess_token())
-                            .build();
-                    return getGoogleAuthRes;
-                });
+        Optional<Member> member = memberRepository.findByEmail(user_email);
+        if(member.isPresent()) {
+            String jwtToken=tokenProvider.createJWT(member.get().getEmail() ,member.get().getId().toString(), member.get().getRole().getKey());
+            GetSocialOAuthRes getGoogleAuthRes= GetSocialOAuthRes.builder()
+                    .jwtToken(jwtToken)
+                    .member_idx(member.get().getId().intValue())
+                    .googleAccessToken(oAuthToken.getAccess_token())
+                    .build();
+            return getGoogleAuthRes;
+        }
         return null;
     }
 }

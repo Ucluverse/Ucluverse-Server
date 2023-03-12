@@ -7,6 +7,7 @@ import com.ucluverse.newucluverseserver.domain.auth.dto.GoogleUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,10 @@ public class GoogleOauth {
 
     private final ObjectMapper objectMapper;
 
-    private final RestTemplate restTemplate;
+    @Bean
+    private RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
     public String getOauthRedirectURL(){
         Map<String,Object> params=new HashMap<>();
@@ -88,7 +92,7 @@ public class GoogleOauth {
 
         //HttpEntity를 하나 생성해 헤더를 담아서 restTemplate으로 구글과 통신.
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers);
-        ResponseEntity<String> response=restTemplate.exchange(GOOGLE_USERINFO_REQUEST_URL, HttpMethod.GET,request,String.class);
+        ResponseEntity<String> response=restTemplate().exchange(GOOGLE_USERINFO_REQUEST_URL, HttpMethod.GET,request,String.class);
         System.out.println("response.getBody() = " + response.getBody());
         return response;
     }
