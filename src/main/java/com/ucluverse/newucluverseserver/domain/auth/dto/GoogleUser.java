@@ -3,9 +3,7 @@ package com.ucluverse.newucluverseserver.domain.auth.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
 @Builder
