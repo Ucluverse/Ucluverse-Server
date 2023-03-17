@@ -1,7 +1,6 @@
 package com.ucluverse.newucluverseserver.config;
 
-import com.ucluverse.newucluverseserver.domain.auth.OAuth2SuccessHandler;
-import com.ucluverse.newucluverseserver.domain.auth.PrincipalOAuth2DetailsService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private final PrincipalOAuth2DetailsService principalOAuth2DetailsService;
-    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -26,12 +23,7 @@ public class SecurityConfiguration {
                 .cors().and()
                 .authorizeHttpRequests().anyRequest().authenticated()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .oauth2Login()
-                .userInfoEndpoint().userService(principalOAuth2DetailsService)
-                .and()
-                .successHandler(oAuth2SuccessHandler);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
 }
