@@ -1,33 +1,31 @@
 package com.ucluverse.newucluverseserver.domain.auth;
 
-import com.nimbusds.openid.connect.sdk.assurance.evidences.attachment.HashAlgorithm;
-import com.ucluverse.newucluverseserver.domain.member.Role;
-import io.jsonwebtoken.*;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
 public class TokenProvider {
 
     @Value("${jwt.secret}")
     private String jwtSecret;
-    @Value("${jwt.token-validity-in-seconds}")
-    private int tokenValidTime = 600;
+    private long tokenValidTime = 30 * 60 * 1000L;
     private Key key;
     private final CustomUserDetailsService userDetailsService;
 
@@ -42,17 +40,11 @@ public class TokenProvider {
         Claims claims = Jwts.claims().setSubject(String.valueOf(email));
         claims.put("roles", roles);
         Date now = new Date();
-        System.out.println(Jwts.builder()
-                .signWith(key)
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidTime))
-                .compact());
         return Jwts.builder()
-                .signWith(key)
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
+                .signWith(key)
                 .compact();
     }
 
