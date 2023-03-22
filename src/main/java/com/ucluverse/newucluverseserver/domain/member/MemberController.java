@@ -18,4 +18,13 @@ public class MemberController {
         return ResponseEntity.ok(memberService.signUp(dto).toString());
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login (@RequestBody MemberLoginRequest dto) {
+        return ResponseEntity.ok(memberService.login(dto));
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test () {
+        return ResponseEntity.ok("good");
+    }
 }

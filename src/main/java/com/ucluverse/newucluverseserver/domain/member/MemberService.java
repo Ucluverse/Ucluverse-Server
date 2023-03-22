@@ -30,4 +30,9 @@ public class MemberService {
         return memberRepository.save(member).getId();
     }
 
+    public String login(MemberLoginRequest dto ){
+        Member member = memberRepository.findByEmail(dto.getEmail()).orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+        return tokenProvider.generateToken(member.getEmail(), member.getRoles());
+    }
+
 }
