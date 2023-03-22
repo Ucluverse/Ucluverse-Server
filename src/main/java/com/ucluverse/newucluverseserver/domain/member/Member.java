@@ -3,6 +3,7 @@ package com.ucluverse.newucluverseserver.domain.member;
 import com.ucluverse.newucluverseserver.common.BaseEntity;
 import com.ucluverse.newucluverseserver.domain.department.Department;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +28,7 @@ public class Member extends BaseEntity implements UserDetails {
     private String nickname;
     private String contactNumber;
     private String email;
-    @ElementCollection()
+    @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
