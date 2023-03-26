@@ -1,6 +1,7 @@
 package com.ucluverse.newucluverseserver.domain.member;
 
 import com.ucluverse.newucluverseserver.common.BaseEntity;
+import com.ucluverse.newucluverseserver.domain.club.MemberClub;
 import com.ucluverse.newucluverseserver.domain.department.Department;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
@@ -35,6 +36,8 @@ public class Member extends BaseEntity implements UserDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberClub> memberClubs = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
