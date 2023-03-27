@@ -5,17 +5,19 @@ import com.ucluverse.newucluverseserver.domain.club.Club;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
-public class Posting extends BaseEntity {
+public class ClubPosting extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
-    private String content;
-    private boolean isPublic;
-    private boolean allowComments;
+    private long id;
+    private String boardName;
     @ManyToOne()
-    @JoinColumn(name = "clubPosting_id")
-    private ClubPosting clubPosting;
+    @JoinColumn(name = "club_id")
+    private Club club;
+    @OneToMany(mappedBy = "clubPosting")
+    private List<Posting> postings = new ArrayList<>();
 }

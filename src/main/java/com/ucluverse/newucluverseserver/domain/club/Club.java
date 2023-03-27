@@ -20,7 +20,7 @@ public class Club extends BaseEntity {
     private ClubType type;
     private String description;
     private String logoPath;
-    @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "club")
     private List<MemberClub> memberClubs = new ArrayList<>();
 
 }
