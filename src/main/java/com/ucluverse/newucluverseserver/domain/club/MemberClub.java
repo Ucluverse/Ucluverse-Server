@@ -15,10 +15,10 @@ public class MemberClub extends BaseEntity {
     private MemberClubRole role;
     private boolean status;
     private boolean star;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "member_id")
     private Member member;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "club_id")
     private Club club;
 }

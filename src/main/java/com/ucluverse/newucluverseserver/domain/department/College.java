@@ -14,9 +14,7 @@ public class College extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "college_id")
     private Long id;
-
     private String name;
-
-    @OneToMany(mappedBy = "college", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "college")
     private List<Department> departments = new ArrayList<>();
 }
