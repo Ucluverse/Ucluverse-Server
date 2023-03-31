@@ -5,6 +5,9 @@ import com.ucluverse.newucluverseserver.domain.club.Club;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 public class Posting extends BaseEntity {
@@ -18,4 +21,8 @@ public class Posting extends BaseEntity {
     @ManyToOne()
     @JoinColumn(name = "clubPosting_id")
     private ClubPosting clubPosting;
+    @OneToMany(mappedBy = "posting")
+    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "posting")
+    private List<Like> likes = new ArrayList<>();
 }

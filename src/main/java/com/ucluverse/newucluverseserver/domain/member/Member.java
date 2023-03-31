@@ -3,6 +3,8 @@ package com.ucluverse.newucluverseserver.domain.member;
 import com.ucluverse.newucluverseserver.common.BaseEntity;
 import com.ucluverse.newucluverseserver.domain.club.MemberClub;
 import com.ucluverse.newucluverseserver.domain.department.Department;
+import com.ucluverse.newucluverseserver.domain.posting.Comment;
+import com.ucluverse.newucluverseserver.domain.posting.Like;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.*;
@@ -33,11 +35,15 @@ public class Member extends BaseEntity implements UserDetails {
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "department_id")
     private Department department;
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member")
     private List<MemberClub> memberClubs = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Like> likes = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
