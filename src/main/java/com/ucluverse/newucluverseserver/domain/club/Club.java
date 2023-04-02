@@ -22,5 +22,7 @@ public class Club extends BaseEntity {
     private String logoPath;
     @OneToMany(mappedBy = "club")
     private List<MemberClub> memberClubs = new ArrayList<>();
+    @OneToMany(mappedBy = "club")
+    private List<ClubCategory> categories = new ArrayList<>();
 
 }
