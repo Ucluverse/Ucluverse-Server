@@ -8,4 +8,5 @@ public class MemberSignInRequest {
     private String userName;
     private String nickName;
     private String contactNumber;
+    private String department;
 }

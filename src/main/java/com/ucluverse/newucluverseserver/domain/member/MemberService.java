@@ -1,5 +1,7 @@
 package com.ucluverse.newucluverseserver.domain.member;
 import com.ucluverse.newucluverseserver.domain.auth.TokenProvider;
+import com.ucluverse.newucluverseserver.domain.department.Department;
+import com.ucluverse.newucluverseserver.domain.department.DepartmentRepository;
 import com.ucluverse.newucluverseserver.domain.member.dto.MemberLoginRequest;
 import com.ucluverse.newucluverseserver.domain.member.dto.MemberSignInRequest;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import java.util.List;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final DepartmentRepository departmentRepository;
     private final TokenProvider tokenProvider;
 
     public Long signUp(MemberSignInRequest dto ){
@@ -20,12 +23,14 @@ public class MemberService {
         });
         List<String> roles = new ArrayList<>();
         roles.add(Role.USER.getKey());
+        Department department = departmentRepository.findOneByName(dto.getDepartment()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학과입니다."));
         Member member = Member.builder()
                 .email(dto.getEmail())
                 .userName(dto.getUserName())
                 .nickname(dto.getNickName())
                 .contactNumber(dto.getContactNumber())
                 .roles(roles)
+                .department(department)
                 .build();
         return memberRepository.save(member).getId();
     }
