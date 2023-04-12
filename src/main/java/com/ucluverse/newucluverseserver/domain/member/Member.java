@@ -1,13 +1,14 @@
 package com.ucluverse.newucluverseserver.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ucluverse.newucluverseserver.common.BaseEntity;
-import com.ucluverse.newucluverseserver.domain.club.MemberClub;
+import com.ucluverse.newucluverseserver.domain.club.entity.MemberClub;
 import com.ucluverse.newucluverseserver.domain.department.Department;
 import com.ucluverse.newucluverseserver.domain.posting.Comment;
-import com.ucluverse.newucluverseserver.domain.posting.Like;
+import com.ucluverse.newucluverseserver.domain.posting.Star;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,7 @@ public class Member extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
     private String userName;
     private String nickname;
@@ -38,12 +40,13 @@ public class Member extends BaseEntity implements UserDetails {
     @ManyToOne()
     @JoinColumn(name = "department_id")
     private Department department;
+    @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<MemberClub> memberClubs = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
     @OneToMany(mappedBy = "member")
-    private List<Like> likes = new ArrayList<>();
+    private List<Star> likes = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

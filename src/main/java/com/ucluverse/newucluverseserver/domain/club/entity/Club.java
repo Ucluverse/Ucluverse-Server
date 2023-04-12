@@ -1,6 +1,8 @@
-package com.ucluverse.newucluverseserver.domain.club;
+package com.ucluverse.newucluverseserver.domain.club.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ucluverse.newucluverseserver.common.BaseEntity;
+import com.ucluverse.newucluverseserver.domain.club.ClubType;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -20,6 +22,7 @@ public class Club extends BaseEntity {
     private ClubType type;
     private String description;
     private String logoPath;
+    @JsonManagedReference
     @OneToMany(mappedBy = "club")
     private List<MemberClub> memberClubs = new ArrayList<>();
     @OneToMany(mappedBy = "club")

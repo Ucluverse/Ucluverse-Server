@@ -1,6 +1,7 @@
-package com.ucluverse.newucluverseserver.domain.club;
+package com.ucluverse.newucluverseserver.domain.club.entity;
 
 import com.ucluverse.newucluverseserver.common.BaseEntity;
+import com.ucluverse.newucluverseserver.domain.club.entity.Club;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -10,7 +11,7 @@ public class ClubCategory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "club_id")
+    @Column(name = "clubCategory_id")
     private Long id;
     private String name;
     @ManyToOne()

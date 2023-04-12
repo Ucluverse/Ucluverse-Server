@@ -1,7 +1,7 @@
 package com.ucluverse.newucluverseserver.domain.posting;
 
 import com.ucluverse.newucluverseserver.common.BaseEntity;
-import com.ucluverse.newucluverseserver.domain.club.Club;
+import com.ucluverse.newucluverseserver.domain.club.entity.Club;
 import jakarta.persistence.*;
 import lombok.Getter;
 
