@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class Like extends BaseEntity {
+public class Star extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
