@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .cors().and()
 
-                .authorizeHttpRequests().requestMatchers("/members/test").hasRole("USER")
+                .authorizeHttpRequests().requestMatchers("/member/test", "/club/**").hasRole("USER")
                 .anyRequest().permitAll()
                 .and()
 
