@@ -1,7 +1,6 @@
 package com.ucluverse.newucluverseserver.domain.posting;
 
 import com.ucluverse.newucluverseserver.common.BaseEntity;
-import com.ucluverse.newucluverseserver.domain.club.Club;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -13,6 +12,7 @@ import java.util.List;
 public class Posting extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "posting_id")
     private Long id;
     private String title;
     private String content;
@@ -24,5 +24,5 @@ public class Posting extends BaseEntity {
     @OneToMany(mappedBy = "posting")
     private List<Comment> comments = new ArrayList<>();
     @OneToMany(mappedBy = "posting")
-    private List<Like> likes = new ArrayList<>();
+    private List<Star> likes = new ArrayList<>();
 }
