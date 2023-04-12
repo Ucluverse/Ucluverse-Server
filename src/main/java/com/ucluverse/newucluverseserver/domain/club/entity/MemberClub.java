@@ -38,4 +38,7 @@ public class MemberClub extends BaseEntity {
     public void updateStatus(boolean status){
         this.status = status;
     }
+    public void updateStar(boolean star){
+        this.star = star;
+    }
 }
