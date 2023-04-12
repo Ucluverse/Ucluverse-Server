@@ -3,7 +3,7 @@ import com.ucluverse.newucluverseserver.domain.auth.TokenProvider;
 import com.ucluverse.newucluverseserver.domain.department.Department;
 import com.ucluverse.newucluverseserver.domain.department.DepartmentRepository;
 import com.ucluverse.newucluverseserver.domain.member.dto.MemberLoginRequest;
-import com.ucluverse.newucluverseserver.domain.member.dto.MemberSignInRequest;
+import com.ucluverse.newucluverseserver.domain.member.dto.MemberSignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +17,8 @@ public class MemberService {
     private final DepartmentRepository departmentRepository;
     private final TokenProvider tokenProvider;
 
-    public Long signUp(MemberSignInRequest dto ){
-        memberRepository.findByEmail(dto.getEmail()).ifPresent(a -> {
+    public Member signUp(MemberSignUpRequest dto ){
+        memberRepository.findOneByEmail(dto.getEmail()).ifPresent(a -> {
             throw new IllegalArgumentException("이미 가입된 email 입니다.");
         });
         List<String> roles = new ArrayList<>();
@@ -32,11 +32,14 @@ public class MemberService {
                 .roles(roles)
                 .department(department)
                 .build();
-        return memberRepository.save(member).getId();
+        return memberRepository.save(member);
     }
 
     public String login(MemberLoginRequest dto ){
-        Member member = memberRepository.findByEmail(dto.getEmail()).orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+        if(!dto.getEmail().split("@")[1].equals("ajou.ac.kr")){
+            throw new IllegalArgumentException("아주대 이메일이 아닙니다");
+        }
+        Member member = memberRepository.findOneByEmail(dto.getEmail()).orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         return tokenProvider.generateToken(member.getEmail(), member.getRoles());
     }
 
