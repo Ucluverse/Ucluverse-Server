@@ -1,7 +1,8 @@
-package com.ucluverse.newucluverseserver.domain.posting;
+package com.ucluverse.newucluverseserver.domain.posting.entity;
 
 import com.ucluverse.newucluverseserver.common.BaseEntity;
 import com.ucluverse.newucluverseserver.domain.member.Member;
+import com.ucluverse.newucluverseserver.domain.posting.entity.Posting;
 import jakarta.persistence.*;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.ucluverse.newucluverseserver.domain.posting;
+package com.ucluverse.newucluverseserver.domain.posting.entity;
 
 import com.ucluverse.newucluverseserver.common.BaseEntity;
 import com.ucluverse.newucluverseserver.domain.member.Member;
