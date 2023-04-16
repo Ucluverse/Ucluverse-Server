@@ -5,6 +5,7 @@ import com.ucluverse.newucluverseserver.common.BaseEntity;
 import com.ucluverse.newucluverseserver.domain.club.entity.MemberClub;
 import com.ucluverse.newucluverseserver.domain.department.Department;
 import com.ucluverse.newucluverseserver.domain.posting.entity.Comment;
+import com.ucluverse.newucluverseserver.domain.posting.entity.Posting;
 import com.ucluverse.newucluverseserver.domain.posting.entity.Star;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,6 +43,8 @@ public class Member extends BaseEntity implements UserDetails {
     @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<MemberClub> memberClubs = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Posting> postings = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
     @OneToMany(mappedBy = "member")
