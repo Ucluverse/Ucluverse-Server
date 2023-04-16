@@ -1,6 +1,7 @@
 package com.ucluverse.newucluverseserver.domain.auth;
 
 
+import com.ucluverse.newucluverseserver.domain.member.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -49,8 +50,8 @@ public class TokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getMemberId(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        Member member = userDetailsService.loadUserByUsername(this.getMemberId(token));
+        return new UsernamePasswordAuthenticationToken(member, "", member.getAuthorities());
     }
 
     public String getMemberId(String token) {
