@@ -4,7 +4,12 @@ import com.ucluverse.newucluverseserver.domain.member.dto.MemberLoginRequest;
 import com.ucluverse.newucluverseserver.domain.member.dto.MemberSignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +29,8 @@ public class MemberController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<String> test () {
+    public ResponseEntity<String> test (@AuthenticationPrincipal Member member) {
+        System.out.println(member);
         return ResponseEntity.ok("good");
     }
 }
